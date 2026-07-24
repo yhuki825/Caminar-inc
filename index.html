@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>株式会社Caminar｜岡山・井原からインターネットで届ける小売業</title>
+<meta name="description" content="株式会社Caminarは、岡山県井原市を拠点にインターネット上での小売業を営んでいます。一歩ずつ、暮らしのそばへ。">
+<meta name="theme-color" content="#16273F">
+<meta property="og:title" content="株式会社Caminar">
+<meta property="og:description" content="岡山県井原市から、インターネットを通じて暮らしの道具を届けています。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   株式会社Caminar / single page
+   色・書体トークン
+   ============================================================ */
+:root{
+  --ink:#10192B;
+  --indigo:#23406B;
+  --indigo-deep:#16273F;
+  --paper:#EDEFEA;
+  --paper-soft:#F6F7F3;
+  --gold:#C08A2E;
+  --gold-soft:#E6C079;
+  --line:rgba(16,25,43,.16);
+  --line-light:rgba(255,255,255,.28);
+
+  --mincho:"Shippori Mincho B1",serif;
+  --gothic:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN",sans-serif;
+  --latin:"Jost",sans-serif;
+
+  --pad:clamp(20px,5vw,64px);
+  --maxw:1180px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--gothic);
+  font-weight:400;
+  font-size:16px;
+  line-height:2;
+  letter-spacing:.04em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,p,dl,dd,dt,figure,ul{margin:0;padding:0}
+ul{list-style:none}
+
+/* 日本語の改行を語句単位で止める */
+.nw{display:inline-block}
+
+::selection{background:var(--gold-soft);color:var(--ink)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:200;
+  background:var(--ink);color:#fff;padding:10px 18px;font-size:13px;
+}
+.skip:focus{left:12px;top:12px}
+
+/* ---------- 共通レイアウト ---------- */
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+.section{padding-block:clamp(76px,11vw,150px)}
+.section--paper{background:var(--paper)}
+.section--soft{background:var(--paper-soft)}
+.section--ink{background:var(--indigo-deep);color:#fff}
+
+.eyebrow{
+  font-family:var(--latin);
+  font-size:11px;font-weight:400;letter-spacing:.42em;text-transform:uppercase;
+  color:var(--gold);
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:26px;
+}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--gold);flex:none}
+.section--ink .eyebrow{color:var(--gold-soft)}
+.section--ink .eyebrow::before{background:var(--gold-soft)}
+
+.h-jp{
+  font-family:var(--mincho);
+  font-weight:600;
+  font-size:clamp(24px,3.4vw,40px);
+  line-height:1.75;
+  letter-spacing:.08em;
+}
+.lead{
+  font-size:clamp(14.5px,1.35vw,16px);
+  line-height:2.3;
+  letter-spacing:.05em;
+}
+
+/* ---------- ヘッダー ---------- */
+.site-head{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;
+  padding:18px var(--pad);
+  color:#fff;
+  transition:background .45s ease,color .45s ease,padding .45s ease,box-shadow .45s ease;
+}
+.site-head.is-solid{
+  background:rgba(237,239,234,.94);
+  backdrop-filter:blur(10px);
+  color:var(--ink);
+  padding-block:12px;
+  box-shadow:0 1px 0 var(--line);
+}
+.brand{display:flex;align-items:baseline;gap:12px}
+.brand__mark{
+  font-family:var(--latin);font-weight:400;
+  font-size:19px;letter-spacing:.34em;text-transform:uppercase;
+}
+.brand__sub{
+  font-family:var(--gothic);font-size:10.5px;letter-spacing:.22em;opacity:.7;
+}
+.nav{display:flex;gap:clamp(16px,2.6vw,34px)}
+.nav a{
+  font-family:var(--latin);font-size:11.5px;letter-spacing:.28em;text-transform:uppercase;
+  padding-bottom:4px;position:relative;
+}
+.nav a::after{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:right;
+  transition:transform .4s cubic-bezier(.2,.7,.3,1);
+}
+.nav a:hover::after,.nav a:focus-visible::after{transform:scaleX(1);transform-origin:left}
+
+/* ---------- ヒーロー ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+.hero__media{position:absolute;inset:0;background:var(--indigo-deep)}
+.hero__media img{width:100%;height:100%;object-fit:cover;object-position:center 58%}
+.hero__media::after{
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(10,18,32,.55) 0%,rgba(10,18,32,.18) 34%,rgba(10,18,32,.72) 100%),
+    linear-gradient(90deg,rgba(22,39,63,.62) 0%,rgba(22,39,63,0) 62%);
+}
+.hero__inner{
+  position:relative;z-index:2;width:100%;max-width:var(--maxw);
+  margin-inline:auto;padding:0 var(--pad) clamp(56px,9vh,96px);
+  color:#fff;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:40px;
+}
+.hero__title{
+  writing-mode:vertical-rl;
+  font-family:var(--mincho);font-weight:600;
+  font-size:clamp(28px,4.3vw,54px);
+  line-height:1.95;letter-spacing:.22em;
+  height:min(68vh,572px);
+  text-shadow:0 2px 24px rgba(8,14,26,.5);
+  order:2;
+}
+.hero__title span{display:block}
+.hero__foot{max-width:min(430px,52%);order:1;padding-bottom:6px}
+.hero__foot p{font-size:clamp(13.5px,1.25vw,15px);line-height:2.25;letter-spacing:.06em;color:var(--ink);opacity:1;text-shadow:0 1px 10px rgba(255,255,255,.35)}
+.hero__label{
+  font-family:var(--latin);font-size:10.5px;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--gold-soft);margin-bottom:16px;
+}
+
+/* 歩みのライン（シグネチャー） */
+.trail{
+  position:absolute;right:clamp(20px,5vw,64px);top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.4) 22%,rgba(255,255,255,.4) 78%,rgba(255,255,255,0));
+  z-index:3;
+}
+.trail__dot{
+  position:absolute;left:50%;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;
+  background:var(--gold-soft);box-shadow:0 0 0 5px rgba(230,192,121,.18);
+  animation:walk 7s cubic-bezier(.55,0,.45,1) infinite;
+}
+@keyframes walk{
+  0%{top:14%;opacity:0}
+  12%{opacity:1}
+  88%{opacity:1}
+  100%{top:84%;opacity:0}
+}
+
+/* ---------- コンセプト ---------- */
+.concept{display:grid;grid-template-columns:1fr .92fr;gap:clamp(36px,6vw,88px);align-items:center}
+.concept__body .h-jp{margin-bottom:30px}
+.concept__body p+p{margin-top:22px}
+.origin{
+  margin-top:38px;padding:24px 26px;
+  border-left:2px solid var(--gold);
+  background:rgba(255,255,255,.6);
+}
+.origin dt{
+  font-family:var(--latin);font-size:11px;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:8px;
+}
+.origin dd{font-size:14.5px;line-height:2.1}
+.origin b{font-family:var(--mincho);font-weight:600;font-size:17px;letter-spacing:.06em}
+
+.figure{position:relative;overflow:hidden;background:var(--indigo);isolation:isolate}
+.figure img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.3,1)}
+.card .figure:hover img,
+.concept .figure:hover img{transform:scale(1.04)}
+.figure--tall{aspect-ratio:4/5}
+.figure--wide{aspect-ratio:16/9}
+.figure.is-fallback{background:linear-gradient(140deg,var(--indigo) 0%,var(--indigo-deep) 60%,#0C1524 100%)}
+.figure.is-fallback img{display:none}
+.figure__cap{
+  position:absolute;left:0;bottom:0;z-index:2;
+  background:var(--paper);color:var(--ink);
+  font-family:var(--latin);font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;
+  padding:10px 18px;
+}
+
+/* ---------- 引用バンド ---------- */
+.band{position:relative;min-height:min(72vh,520px);display:grid;place-items:center;overflow:hidden}
+.band__media{position:absolute;inset:0;background:var(--indigo-deep)}
+.band__media img{width:100%;height:100%;object-fit:cover}
+.band__media::after{content:"";position:absolute;inset:0;background:rgba(15,26,44,.66)}
+.band__text{
+  position:relative;z-index:2;color:#fff;text-align:center;
+  padding:0 var(--pad);
+  font-family:var(--mincho);font-weight:400;
+  font-size:clamp(19px,2.9vw,34px);line-height:2.1;letter-spacing:.14em;
+}
+.band__text small{
+  display:block;margin-top:26px;
+  font-family:var(--latin);font-size:11px;letter-spacing:.36em;text-transform:uppercase;
+  color:var(--gold-soft);
+}
+
+/* ---------- 事業内容 ---------- */
+.head-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(38px,5vw,64px)}
+.head-row .lead{max-width:44ch}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.6vw,34px)}
+.card{background:var(--paper-soft);display:flex;flex-direction:column}
+.section--soft .card{background:#fff}
+.card .figure{aspect-ratio:3/2}
+.card__body{padding:28px 26px 34px}
+.card__no{
+  font-family:var(--latin);font-size:11px;letter-spacing:.3em;color:var(--gold);
+  display:block;margin-bottom:12px;
+}
+.card h3{
+  font-family:var(--mincho);font-weight:600;font-size:19px;letter-spacing:.08em;
+  line-height:1.7;margin-bottom:14px;
+}
+.card p{font-size:14px;line-height:2.1;color:rgba(16,25,43,.82)}
+
+/* ---------- 姿勢 ---------- */
+.stance{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(28px,4vw,56px);margin-top:clamp(30px,4vw,54px)}
+.stance li{padding-top:26px;border-top:1px solid var(--line-light)}
+.stance h3{font-family:var(--mincho);font-weight:600;font-size:20px;letter-spacing:.1em;margin-bottom:16px}
+.stance p{font-size:14px;line-height:2.15;color:rgba(255,255,255,.78)}
+
+/* ---------- 会社概要 ---------- */
+.company{display:grid;grid-template-columns:.7fr 1.3fr;gap:clamp(30px,5vw,80px);align-items:start}
+.table{border-top:1px solid var(--line)}
+.table div{
+  display:grid;grid-template-columns:190px 1fr;gap:20px;
+  padding:22px 4px;border-bottom:1px solid var(--line);
+}
+.table dt{
+  font-family:var(--latin);font-size:11px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--indigo);padding-top:6px;
+}
+.table dt em{
+  display:block;font-style:normal;font-family:var(--gothic);
+  font-size:13px;letter-spacing:.12em;color:var(--ink);margin-top:2px;
+}
+.table dd{font-size:15px;line-height:2.05}
+.table dd .en{
+  display:block;font-family:var(--latin);font-size:12px;letter-spacing:.14em;
+  color:rgba(16,25,43,.55);margin-top:2px;
+}
+
+/* ---------- フッター ---------- */
+.site-foot{background:var(--ink);color:#fff;padding-block:clamp(56px,7vw,84px) 30px}
+.foot-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:34px;align-items:flex-end}
+.foot-brand__mark{
+  font-family:var(--latin);font-size:clamp(28px,5vw,46px);letter-spacing:.3em;
+  text-transform:uppercase;font-weight:300;line-height:1;
+}
+.foot-brand p{margin-top:18px;font-size:13px;line-height:2.1;color:rgba(255,255,255,.66)}
+.foot-nav{display:flex;gap:26px}
+.foot-nav a{font-family:var(--latin);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+.foot-nav a:hover{color:#fff}
+.copy{
+  margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);
+  font-family:var(--latin);font-size:10.5px;letter-spacing:.2em;color:rgba(255,255,255,.5);
+}
+
+/* ---------- スクロール演出 ---------- */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.3,1)}
+.reveal.is-in{opacity:1;transform:none}
+.reveal[data-d="1"]{transition-delay:.12s}
+.reveal[data-d="2"]{transition-delay:.24s}
+.reveal[data-d="3"]{transition-delay:.36s}
+
+/* ---------- レスポンシブ ---------- */
+@media (max-width:1000px){
+  .concept,.company{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr 1fr}
+  .stance{grid-template-columns:1fr 1fr}
+  .table div{grid-template-columns:150px 1fr}
+}
+@media (max-width:720px){
+  body{line-height:1.95}
+  .hero{min-height:92svh}
+  .hero__inner{flex-direction:column;align-items:flex-start;gap:26px}
+  .hero__title{
+    writing-mode:horizontal-tb;height:auto;order:1;
+    font-size:clamp(27px,7.6vw,38px);line-height:1.85;letter-spacing:.1em;
+  }
+  .hero__foot{order:2;max-width:100%}
+  .trail{display:none}
+  .cards,.stance{grid-template-columns:1fr}
+  .table div{grid-template-columns:1fr;gap:6px;padding:18px 2px}
+  .table dt{padding-top:0}
+  .nav{gap:14px}
+  .nav a{font-size:10px;letter-spacing:.2em}
+  .brand__sub{display:none}
+  .figure--tall{aspect-ratio:3/2}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  .trail__dot{animation:none;top:48%}
+  .card .figure:hover img,
+  .concept .figure:hover img{transform:none}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<header class="site-head" id="siteHead">
+  <a class="brand" href="#top">
+    <span class="brand__mark">Caminar</span>
+    <span class="brand__sub">株式会社カミナール</span>
+  </a>
+  <nav class="nav" aria-label="サイト内メニュー">
+    <a href="#concept">Concept</a>
+    <a href="#business">Business</a>
+    <a href="#company">Company</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ============ ヒーロー ============ -->
+  <section class="hero" id="top">
+    <div class="hero__media figure">
+      <!-- 画像はフリー素材（Unsplash）。差し替える場合は src を変更してください -->
+      <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1900&q=70" alt="朝もやのなかを進む一本の道">
+    </div>
+    <div class="trail" aria-hidden="true"><span class="trail__dot"></span></div>
+
+    <div class="hero__inner">
+      <div class="hero__foot">
+        <p class="hero__label">Ibara, Okayama</p>
+        <p>
+          <span class="nw">岡山県井原市から、</span><span class="nw">インターネットを通じて</span><span class="nw">日々の暮らしに寄り添う品を</span><span class="nw">お届けしています。</span>
+        </p>
+      </div>
+      <h1 class="hero__title">
+        <span>一歩ずつ、</span>
+        <span>暮らしのそばへ。</span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- ============ コンセプト ============ -->
+  <section class="section section--paper" id="concept">
+    <div class="wrap concept">
+      <div class="concept__body">
+        <p class="eyebrow reveal">Concept</p>
+        <h2 class="h-jp reveal" data-d="1">
+          <span class="nw">遠くの誰かの一日を、</span><br>
+          <span class="nw">少しだけ良くする</span><span class="nw">仕事です。</span>
+        </h2>
+        <p class="lead reveal" data-d="2">
+          <span class="nw">私たちが向き合うのは、</span><span class="nw">画面の向こうにいる一人ひとりの生活です。</span>
+          <span class="nw">どんな場面で使われ、</span><span class="nw">どんな気持ちで箱を開けるのか。</span>
+          <span class="nw">そこを想像することから、</span><span class="nw">商品の選定も、</span><span class="nw">説明の書き方も、</span><span class="nw">梱包の仕方も決まっていきます。</span>
+        </p>
+        <p class="lead reveal" data-d="2">
+          <span class="nw">派手さより、</span><span class="nw">届いたときの「思っていたとおりだ」を。</span>
+          <span class="nw">小さな会社だからこそ、</span><span class="nw">一つひとつの取引を</span><span class="nw">最後まで見届けられると考えています。</span>
+        </p>
+
+        <dl class="origin reveal" data-d="3">
+          <dt>Origin of the name</dt>
+          <dd>
+            <b>Caminar</b>（カミナール）は、<span class="nw">スペイン語で「歩む」。</span>
+            <span class="nw">大きく飛ぶのではなく、</span><span class="nw">昨日より少し先へ進む。</span>
+            <span class="nw">その姿勢を社名にしました。</span>
+          </dd>
+        </dl>
+      </div>
+
+      <figure class="figure figure--tall reveal" data-d="1">
+        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=70" alt="商品が並ぶ売り場の様子" loading="lazy">
+        <figcaption class="figure__cap">Retail</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ 引用バンド ============ -->
+  <section class="band">
+    <div class="band__media figure">
+      <img src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1900&q=70" alt="整然と商品が並ぶ倉庫" loading="lazy">
+    </div>
+    <p class="band__text reveal">
+      <span class="nw">売って終わりではなく、</span><br>
+      <span class="nw">届いてからが</span><span class="nw">はじまりだと思っている。</span>
+      <small>Caminar</small>
+    </p>
+  </section>
+
+  <!-- ============ 事業内容 ============ -->
+  <section class="section section--soft" id="business">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow reveal">Business</p>
+          <h2 class="h-jp reveal" data-d="1">インターネット上での小売業</h2>
+        </div>
+        <p class="lead reveal" data-d="2">
+          <span class="nw">仕入れから販売、</span><span class="nw">発送とその後の対応まで。</span>
+          <span class="nw">お客様の手元に届くまでの流れを、</span><span class="nw">自分たちの目で確かめながら運営しています。</span>
+        </p>
+      </div>
+
+      <div class="cards">
+        <article class="card reveal">
+          <figure class="figure">
+            <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=900&q=70" alt="オンラインストアの運営画面" loading="lazy">
+          </figure>
+          <div class="card__body">
+            <span class="card__no">Online Store</span>
+            <h3>オンラインストアの運営</h3>
+            <p>
+              <span class="nw">各ECモールおよび自社チャネルで</span><span class="nw">商品を販売しています。</span>
+              <span class="nw">写真と説明文は、</span><span class="nw">実物との差が出ないことを</span><span class="nw">第一に整えています。</span>
+            </p>
+          </div>
+        </article>
+
+        <article class="card reveal" data-d="1">
+          <figure class="figure">
+            <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=900&q=70" alt="仕入れた商品を確認する様子" loading="lazy">
+          </figure>
+          <div class="card__body">
+            <span class="card__no">Sourcing</span>
+            <h3>商品の選定と仕入れ</h3>
+            <p>
+              <span class="nw">扱う品は、</span><span class="nw">使う場面を想像できるものだけに絞ります。</span>
+              <span class="nw">品質と価格の釣り合いを見て、</span><span class="nw">納得できたものを仕入れています。</span>
+            </p>
+          </div>
+        </article>
+
+        <article class="card reveal" data-d="2">
+          <figure class="figure">
+            <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=900&q=70" alt="梱包された荷物" loading="lazy">
+          </figure>
+          <div class="card__body">
+            <span class="card__no">Delivery &amp; Care</span>
+            <h3>発送と、その後の対応</h3>
+            <p>
+              <span class="nw">傷まない梱包で、</span><span class="nw">できるだけ早く。</span>
+              <span class="nw">届いたあとに生じた疑問にも、</span><span class="nw">担当者が最後まで対応します。</span>
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 姿勢 ============ -->
+  <section class="section section--ink">
+    <div class="wrap">
+      <p class="eyebrow reveal">Our Stance</p>
+      <h2 class="h-jp reveal" data-d="1">大切にしている三つのこと</h2>
+      <ul class="stance">
+        <li class="reveal" data-d="1">
+          <h3>実物に忠実であること</h3>
+          <p>
+            <span class="nw">写真も文章も、</span><span class="nw">実物を超えて見せません。</span>
+            <span class="nw">期待と現物の差をなくすことが、</span><span class="nw">通販でいちばん大事だと考えています。</span>
+          </p>
+        </li>
+        <li class="reveal" data-d="2">
+          <h3>返事を待たせないこと</h3>
+          <p>
+            <span class="nw">連絡をいただいたら、</span><span class="nw">まず状況を共有します。</span>
+            <span class="nw">解決までの見通しが立つだけでも、</span><span class="nw">不安は小さくなるからです。</span>
+          </p>
+        </li>
+        <li class="reveal" data-d="3">
+          <h3>歩幅を守ること</h3>
+          <p>
+            <span class="nw">扱う数を一気に増やすより、</span><span class="nw">一つの商品を長く売り続けられる状態を選びます。</span>
+            <span class="nw">それが社名の意味でもあります。</span>
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 会社概要 ============ -->
+  <section class="section section--paper" id="company">
+    <div class="wrap company">
+      <div>
+        <p class="eyebrow reveal">Company</p>
+        <h2 class="h-jp reveal" data-d="1">会社概要</h2>
+      </div>
+
+      <dl class="table reveal" data-d="1">
+        <div>
+          <dt>Name<em>会社名</em></dt>
+          <dd>株式会社Caminar<span class="en">Caminar Inc.</span></dd>
+        </div>
+        <div>
+          <dt>Representative<em>代表者</em></dt>
+          <dd>中西 亨壮</dd>
+        </div>
+        <div>
+          <dt>Business<em>事業内容</em></dt>
+          <dd>インターネット上での小売業</dd>
+        </div>
+        <div>
+          <dt>Address<em>所在地</em></dt>
+          <dd>
+            〒715-0006<br>
+            <span class="nw">岡山県井原市西江原町</span><span class="nw">5593番地</span>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <p class="foot-brand__mark">Caminar</p>
+        <p>
+          株式会社Caminar<br>
+          〒715-0006 <span class="nw">岡山県井原市西江原町5593番地</span>
+        </p>
+      </div>
+      <nav class="foot-nav" aria-label="フッターメニュー">
+        <a href="#concept">Concept</a>
+        <a href="#business">Business</a>
+        <a href="#company">Company</a>
+        <a href="#top">Top</a>
+      </nav>
+    </div>
+    <p class="copy">© <span id="year">2026</span> Caminar Inc. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 画像が読み込めない場合は背景グラデーションに切り替える */
+  document.querySelectorAll('.figure img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      var box = img.closest('.figure');
+      if (box) box.classList.add('is-fallback');
+    });
+    if (img.complete && img.naturalWidth === 0) {
+      var box = img.closest('.figure');
+      if (box) box.classList.add('is-fallback');
+    }
+  });
+
+  /* ヘッダーの背景切り替え */
+  var head = document.getElementById('siteHead');
+  var onScroll = function () {
+    if (window.scrollY > window.innerHeight * 0.72) {
+      head.classList.add('is-solid');
+    } else {
+      head.classList.remove('is-solid');
+    }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* スクロールで要素を表示 */
+  var targets = document.querySelectorAll('.reveal');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('is-in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function (el) { io.observe(el); });
+  }
+
+  /* 著作権表記の年 */
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+
+</body>
+</html>
